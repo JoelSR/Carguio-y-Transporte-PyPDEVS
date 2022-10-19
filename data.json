@@ -1,0 +1,7 @@
+{
+     "camiones" : 6,
+     "palas" : 3,
+     "stock_piles" : 3,
+     "simTime" : 140000,
+     "palaToStock": [[1,2],[1,3],[2,3]]
+}
