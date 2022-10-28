@@ -104,16 +104,15 @@ class Pala(AtomicDEVS):
 			raise DEVSException(\
 				"unknown state <%s> in PALA time advance transition function"\
 				% state)
-		#return self.state.remaining_time
 
 	def outputFnc(self):
 		state = self.state.get()
 
 		if(state == "cargando"):
-			return {self.out_load[self.camion]: [330,self.loadTime[0],self.toStocks],
-					self.DATA: [self.name,self.adv_time,self.state.get(),330]}
+			return {self.out_load[self.camion]: [random.randrange(321,340),self.loadTime[0],self.toStocks],
+					self.DATA: [self.name,self.adv_time,self.state.get(),random.randrange(321,340)]}
 		elif(state == "iniciarCarga"):
-			return {self.DATA: [self.name,self.adv_time,self.state.get(),0]}
+			return {self.DATA: [self.name,self.elapsed,self.state.get(),0]}
 		elif(state == "salida"):
 			return {self.DATA: [self.name,self.adv_time,self.state.get(),0]}
 		else:
