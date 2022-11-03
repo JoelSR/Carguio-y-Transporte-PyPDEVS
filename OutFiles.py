@@ -21,17 +21,13 @@ class OutFiles():
 				metrics[maquinaria]["U"]=metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"]
 			else:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="descargando")]["Carga"].sum()
-				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="transportando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="descargando")]["Tiempo"].sum()
+				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="transportando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="descargando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="ocupado")]["Tiempo"].sum()
 				metrics[maquinaria]["TD"]=metrics[maquinaria]["TO"]+aux.loc[(aux.Estado=="viajandoVacio")]["Tiempo"].sum()
 				metrics[maquinaria]["U"]=metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"]
 				metrics[maquinaria]["Fq"]=aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400
 		
 		metricas = pd.DataFrame.from_dict(metrics)
 		metricas.to_csv("metricas.csv")
-		plt.bar(self.camiones["Camion"].unique(), metricas.loc["TO"])
-		plt.title('Tiempo Operativo')
-		plt.show()
-		print(metricas.loc["Fq"])
 		print("Archivo de metricas almacenado como 'metricas.csv'")
 
 	def archivo(self):
