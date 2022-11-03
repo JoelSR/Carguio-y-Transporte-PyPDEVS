@@ -22,17 +22,8 @@ class Collector(AtomicDEVS):
     def extTransition(self, inputs):
         # Update simulation time
         self.state.current_time += self.elapsed
-        #print(self.elapsed,inputs.get(self.in_event))
-        # Calculate time in queue
-        #print(evt)
         inputData = inputs.get(self.in_event)
-        #evt = inputs[self.in_event]
-        #time = self.state.current_time - evt.creation_time - evt.processing_time
-        #inputs[self.in_event].data = inputs.get(self.in_event)#max(0.0, time)
-        """if("camion"in inputData[0]):
-                                    self.state.events["camiones"].append(inputData)
-                                else:
-                                    self.state.events["palas"].append(inputData)"""
+        inputData[1] = self.state.current_time
         self.state.events.append(inputData)
         return self.state
 
