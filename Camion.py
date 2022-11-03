@@ -1,5 +1,5 @@
 from pypdevs.DEVS import *
-from scipy.stats import gamma
+from scipy.stats import lognorm,weibull_min
 import random
 
 class CamionState:
@@ -21,6 +21,7 @@ class Camion(AtomicDEVS):
 		self.state = CamionState("listoPala")
 		
 		self.adv_time = 0.0
+		self.elapsed = 0.0
 
 		# Variables para el proceso
 		self.carga  = 0
@@ -87,16 +88,16 @@ class Camion(AtomicDEVS):
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "esperando":
-			self.adv_time = float("inf")
+			self.adv_time = self.elapsed
 			return float("inf")
 		elif state == "transportando":
-			self.adv_time = random.randrange(480,1319)
+			self.adv_time = lognorm.rvs(2.19,loc=3.310,scale=0.7057,size=1)[0]
 			return self.adv_time
 		elif state == "descargando":
-			self.adv_time = gamma.rvs(13, scale=6,size=1)[0]
+			self.adv_time = lognorm.rvs(1.38,loc=0.3742,scale=0.7050,size=1)[0]
 			return self.adv_time
 		elif state == "viajandoVacio":
-			self.adv_time = random.randrange(300,1019)
+			self.adv_time = lognorm.rvs(1.90,loc=3.050,scale=0.7120,size=1)[0]
 			return self.adv_time
 
 	def outputFnc(self):

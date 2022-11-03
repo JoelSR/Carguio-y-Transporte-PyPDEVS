@@ -1,5 +1,6 @@
 from pypdevs.DEVS import *
-from scipy.stats import gamma
+from numpy.random import normal
+from scipy.stats import lognorm
 import random
 
 class PalaState:
@@ -95,7 +96,7 @@ class Pala(AtomicDEVS):
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "iniciarCarga":
-			self.loadTime = gamma.rvs(8, scale=31.62,size=1)+gamma.rvs(3, scale=32.42,size=1)
+			self.loadTime = lognorm.rvs(2.54,loc=1.326,scale=0.5733,size=1)+lognorm.rvs(1.71,loc=1.326,scale=0.5733,size=1) #MANIOBRAS MÁS DEMORA DE CARGA
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "salida":
@@ -109,8 +110,9 @@ class Pala(AtomicDEVS):
 		state = self.state.get()
 
 		if(state == "cargando"):
-			return {self.out_load[self.camion]: [random.randrange(321,340),self.loadTime[0],self.toStocks],
-					self.DATA: [self.name,self.adv_time,self.state.get(),random.randrange(321,340)]}
+			carga = normal(331,16.06,1)[0]
+			return {self.out_load[self.camion]: [carga,self.loadTime[0],self.toStocks],
+					self.DATA: [self.name,self.adv_time,self.state.get(),carga]}
 		elif(state == "iniciarCarga"):
 			return {self.DATA: [self.name,self.elapsed,self.state.get(),0]}
 		elif(state == "salida"):
