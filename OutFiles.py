@@ -1,6 +1,6 @@
 from re import M
 import pandas as pd
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 class OutFiles():
 	def __init__(self,collector):
