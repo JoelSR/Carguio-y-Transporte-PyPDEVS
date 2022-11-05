@@ -1,5 +1,5 @@
 from pypdevs.DEVS import *
-from scipy.stats import lognorm,weibull_min
+from scipy.stats import lognorm,invgauss
 import random
 
 class CamionState:
@@ -94,7 +94,7 @@ class Camion(AtomicDEVS):
 			self.adv_time = lognorm.rvs(2.19,loc=3.310,scale=0.7057,size=1)[0]
 			return self.adv_time
 		elif state == "descargando":
-			self.adv_time = lognorm.rvs(1.38,loc=0.3742,scale=0.7050,size=1)[0]
+			self.adv_time = invgauss.rvs(0.84,scale=1)#descarga+aculatado
 			return self.adv_time
 		elif state == "viajandoVacio":
 			self.adv_time = lognorm.rvs(1.90,loc=3.050,scale=0.7120,size=1)[0]

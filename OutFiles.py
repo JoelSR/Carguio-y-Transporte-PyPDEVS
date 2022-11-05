@@ -1,6 +1,4 @@
-from re import M
 import pandas as pd
-#import matplotlib.pyplot as plt
 
 class OutFiles():
 	def __init__(self,collector):
@@ -16,13 +14,14 @@ class OutFiles():
 			metrics[maquinaria] = {}
 			if "pala"in maquinaria:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="cargando")]["Carga"].sum()
-				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="iniciarCarga")]["Tiempo"].sum()
+				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="cargando")]["Tiempo"].sum()
 				metrics[maquinaria]["TD"]=metrics[maquinaria]["TO"]
 				metrics[maquinaria]["U"]=metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"]
 			else:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="descargando")]["Carga"].sum()
-				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="transportando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="descargando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="ocupado")]["Tiempo"].sum()
-				metrics[maquinaria]["TD"]=metrics[maquinaria]["TO"]+aux.loc[(aux.Estado=="viajandoVacio")]["Tiempo"].sum()
+				metrics[maquinaria]["TDO"]=aux.loc[(aux.Estado=="esperando")]["Tiempo"].sum()
+				metrics[maquinaria]["TD"]=aux.loc[(aux.Estado=="transportando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="descargando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="ocupado")]["Tiempo"].sum()
+				metrics[maquinaria]["TO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TDO"]
 				metrics[maquinaria]["U"]=metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"]
 				metrics[maquinaria]["Fq"]=aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400
 		

@@ -7,6 +7,7 @@ class CollectorState(object):
         #self.events = {"camiones":[],"palas":[]}
         self.events = []
         self.current_time = 0.0
+        self.arrives = {}
 
 class Collector(AtomicDEVS):
     def __init__(self,cQ,pQ):
@@ -24,7 +25,12 @@ class Collector(AtomicDEVS):
         self.state.current_time += self.elapsed
         inputData = inputs.get(self.in_event)
         inputData[1] = self.state.current_time
-        self.state.events.append(inputData)
+        if(inputData[2]=="listoPala"):
+            self.state.arrives[inputData[0]] = self.state.current_time
+        elif(inputData[2]=="ocupado"):
+            self.state.events.append([inputData[0],inputData[1]-self.state.arrives[inputData[0]],"esperando",0])
+        elif(inputData[2]!="iniciarCarga"):
+            self.state.events.append(inputData)
         return self.state
 
     # Don't define anything else, as we only store events.

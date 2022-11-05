@@ -96,7 +96,7 @@ class Pala(AtomicDEVS):
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "iniciarCarga":
-			self.loadTime = lognorm.rvs(2.54,loc=1.326,scale=0.5733,size=1)+lognorm.rvs(1.71,loc=1.326,scale=0.5733,size=1) #MANIOBRAS MÁS DEMORA DE CARGA
+			self.loadTime = lognorm.rvs(2.54,loc=1.326,scale=0.5733,size=1) #carguio
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "salida":
