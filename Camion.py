@@ -31,6 +31,7 @@ class Camion(AtomicDEVS):
 		self.cargaT = 0
 		self.stock  = 1
 
+		#Diccionarios de puertos
 		self.out_load = {}
 		self.notify   = {}
 
