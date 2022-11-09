@@ -1,8 +1,10 @@
 from pypdevs.DEVS import *
 from numpy.random import normal
-from scipy.stats import lognorm
-import random
+from numpy.random import lognormal
+from math import sqrt
+from math import log
 
+#Asignación de estados de pala
 class PalaState:
 	def __init__(self, current="esperando"):
 		self.set(current)
@@ -17,6 +19,7 @@ class PalaState:
 		return self.get()
 
 class Pala(AtomicDEVS):
+	#Atributos
 	def __init__(self, name=None, cQ=0,stocks=None):
 		# Class constructor
 		AtomicDEVS.__init__(self, name)
@@ -80,8 +83,6 @@ class Pala(AtomicDEVS):
 	def extTransition(self,inputs):
 		inputC = inputs.get(self.CAMION)[0]
 
-		state = self.state.get()
-
 		if(inputC):
 			self.camiones.append(inputC)
 			return PalaState("iniciarCarga")
@@ -96,11 +97,12 @@ class Pala(AtomicDEVS):
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "iniciarCarga":
-			self.loadTime = lognorm.rvs(2.54,loc=1.326,scale=0.5733,size=1) #carguio
-			self.adv_time = 0.0
+			#https://blogs.sas.com/content/iml/2014/06/04/simulate-lognormal-data-with-specified-mean-and-variance.html
+			phi = sqrt(4.41**2+2.54**2)
+			self.loadTime = lognormal(log(4.41**2/ phi),sqrt(log((phi**2)/4.41**2)))*60 #carguio
 			return 0.0
 		elif state == "salida":
-			return self.loadTime[0]
+			return self.loadTime
 		else:
 			raise DEVSException(\
 				"unknown state <%s> in PALA time advance transition function"\
@@ -111,7 +113,7 @@ class Pala(AtomicDEVS):
 
 		if(state == "cargando"):
 			carga = normal(331,16.06,1)[0]
-			return {self.out_load[self.camion]: [carga,self.loadTime[0],self.toStocks],
+			return {self.out_load[self.camion]: [carga,self.loadTime,self.toStocks],
 					self.DATA: [self.name,self.adv_time,self.state.get(),carga]}
 		elif(state == "iniciarCarga"):
 			return {self.DATA: [self.name,self.elapsed,self.state.get(),0]}

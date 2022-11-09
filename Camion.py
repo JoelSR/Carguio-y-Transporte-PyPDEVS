@@ -1,5 +1,8 @@
 from pypdevs.DEVS import *
-from scipy.stats import lognorm,invgauss
+from scipy.stats import invgauss
+from numpy.random import lognormal
+from math import sqrt
+from math import log
 import random
 
 class CamionState:
@@ -91,13 +94,15 @@ class Camion(AtomicDEVS):
 			self.adv_time = self.elapsed
 			return float("inf")
 		elif state == "transportando":
-			self.adv_time = lognorm.rvs(2.19,loc=3.310,scale=0.7057,size=1)[0]
+			phi = sqrt( 34.1**2 + 21.9**2 )
+			self.adv_time = lognormal(log(34.1**2/ phi),sqrt(log((phi**2)/34.1**2)))*60
 			return self.adv_time
 		elif state == "descargando":
-			self.adv_time = invgauss.rvs(0.84,scale=1)#descarga+aculatado
+			self.adv_time = invgauss.rvs(0.84,scale=1)*60#descarga+aculatado
 			return self.adv_time
 		elif state == "viajandoVacio":
-			self.adv_time = lognorm.rvs(1.90,loc=3.050,scale=0.7120,size=1)[0]
+			phi = sqrt( 26.8**2 + 19.0**2 )
+			self.adv_time = lognormal(log(26.8**2/ phi),sqrt(log((phi**2)/26.8**2)))*60
 			return self.adv_time
 
 	def outputFnc(self):
