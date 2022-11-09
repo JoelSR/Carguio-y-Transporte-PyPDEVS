@@ -90,7 +90,6 @@ class Pala(AtomicDEVS):
 	def timeAdvance(self):
 		state = self.state.get()
 
-
 		if state == "esperando":
 			return float("inf")
 		elif state == "cargando":
@@ -114,7 +113,7 @@ class Pala(AtomicDEVS):
 		if(state == "cargando"):
 			carga = normal(331,16.06,1)[0]
 			return {self.out_load[self.camion]: [carga,self.loadTime,self.toStocks],
-					self.DATA: [self.name,self.adv_time,self.state.get(),carga]}
+					self.DATA: [self.name,self.loadTime,self.state.get(),carga]}
 		elif(state == "iniciarCarga"):
 			return {self.DATA: [self.name,self.elapsed,self.state.get(),0]}
 		elif(state == "salida"):

@@ -24,11 +24,11 @@ class Collector(AtomicDEVS):
         # Update simulation time
         self.state.current_time += self.elapsed
         inputData = inputs.get(self.in_event)
-        inputData[1] = self.state.current_time
+        #inputData[1] = self.state.current_time
         if(inputData[2]=="listoPala"):
             self.state.arrives[inputData[0]] = self.state.current_time
         elif(inputData[2]=="ocupado"):
-            self.state.events.append([inputData[0],inputData[1]-self.state.arrives[inputData[0]],"esperando",0])
+            self.state.events.append([inputData[0],self.state.current_time-self.state.arrives[inputData[0]],"esperando",0])
         elif(inputData[2]!="iniciarCarga"):
             self.state.events.append(inputData)
         return self.state

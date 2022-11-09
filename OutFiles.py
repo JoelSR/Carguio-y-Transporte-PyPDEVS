@@ -1,12 +1,14 @@
 import pandas as pd
 from datetime import datetime
-import os
+from pathlib import Path
+from os import mkdir
 
 class OutFiles():
 	def __init__(self,collector,nominal):
 		self.camCols = ["Camion","Tiempo","Estado","Carga"]
 		self.data = collector
 		self.camiones = None
+		self.nominal = nominal
 
 	def metricas(self):
 		aux = None
@@ -17,24 +19,27 @@ class OutFiles():
 			if "pala"in maquinaria:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="cargando")]["Carga"].sum()
 				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="cargando")]["Tiempo"].sum()
-				metrics[maquinaria]["TD"]=metrics[maquinaria]["TO"]
-				metrics[maquinaria]["U"]=metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"]
+				metrics[maquinaria]["TD"]=self.nominal #-DEMORAS
+				metrics[maquinaria]["Utilizacion"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
 			else:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="descargando")]["Carga"].sum()
 				metrics[maquinaria]["TDO"]=aux.loc[(aux.Estado=="esperando")]["Tiempo"].sum()
-				metrics[maquinaria]["TD"]=aux.loc[(aux.Estado=="transportando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="descargando")]["Tiempo"].sum()+aux.loc[(aux.Estado=="ocupado")]["Tiempo"].sum()
+				metrics[maquinaria]["TD"]=self.nominal #-DEMORAS
 				metrics[maquinaria]["TO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TDO"]
-				metrics[maquinaria]["U"]=metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"]
-				metrics[maquinaria]["Fq"]=aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400
+				metrics[maquinaria]["Utilizacion"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
+				metrics[maquinaria]["Factor LLenado"]=(aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400)*100
 		
 		metricas = pd.DataFrame.from_dict(metrics)
-		name = "metricas"+str(datetime.now())+".csv"
-		metricas.to_csv("metricas/"+name)
+		name = str(datetime.now())+"metricas.csv"
+		metricas.to_csv("resultados/"+name)
 		print("Archivo de metricas almacenado como",name)
 
+	#creación de archivo con resultados
 	def archivo(self):
+		if(not Path("resultados").exists()):
+			mkdir("resultados")
 		self.camiones = pd.DataFrame(self.data,columns=self.camCols)
-		name = "resultados"+str(datetime.now())+".csv"
+		name = str(datetime.now())+"resultados.csv"
 		self.camiones.to_csv("resultados/"+name)
 		print("Archivo almacenado como ",name)
 		self.metricas()
