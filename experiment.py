@@ -25,7 +25,11 @@ if(len(sys.argv) == 2):
         path = Path(sys.argv[1])
         if(path.exists()):
             file = open(path)
-            data = json.load(file)
+            try:
+                data = json.load(file)
+            except ValueError:  # includes simplejson.decoder.JSONDecodeError
+                print('Decoding JSON has failed')
+                sys.exit()
         else:
             print("Error: Asegure que el archivo existe o que la dirección fue bien ingresada.")
             exit()
@@ -54,6 +58,17 @@ simTime = float(data["simTime"])
 # Stocks de pala
 palaToStock = data["palaToStock"]
 
+#Verificar que los stocks corresponden a las cantidades respectivas
+for i in palaToStock:
+    if(len(i)>sQ):
+        print("La cantidad de stocks no corresponde a los que se ingresaron en palaToStock")
+        sys.exit()
+    elif(max(i)>sQ or min(i)<=0):
+        print("Los stocks van entre 1 y cantidad de stocks")
+        sys.exit()
+    else:
+        continue
+
 opmct = OPMCTSystem(cQ,pQ,sQ,palaToStock)
 
 # PythonPDEVS specific setup and configuration
@@ -67,6 +82,6 @@ sim.simulate()
 
 collector = opmct.collector.state.events
 
-files = OutFiles(collector)
+files = OutFiles(collector,simTime)
 print("Cambios de estado almacenados como 'OUTPUT.txt'")
 files.archivo()
