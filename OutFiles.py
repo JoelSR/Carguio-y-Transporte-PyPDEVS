@@ -1,7 +1,9 @@
 import pandas as pd
+from datetime import datetime
+import os
 
 class OutFiles():
-	def __init__(self,collector):
+	def __init__(self,collector,nominal):
 		self.camCols = ["Camion","Tiempo","Estado","Carga"]
 		self.data = collector
 		self.camiones = None
@@ -26,11 +28,13 @@ class OutFiles():
 				metrics[maquinaria]["Fq"]=aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400
 		
 		metricas = pd.DataFrame.from_dict(metrics)
-		metricas.to_csv("metricas.csv")
-		print("Archivo de metricas almacenado como 'metricas.csv'")
+		name = "metricas"+str(datetime.now())+".csv"
+		metricas.to_csv("metricas/"+name)
+		print("Archivo de metricas almacenado como",name)
 
 	def archivo(self):
 		self.camiones = pd.DataFrame(self.data,columns=self.camCols)
-		self.camiones.to_csv("out.csv")
-		print("Archivo almacenado como 'out.csv'")
+		name = "resultados"+str(datetime.now())+".csv"
+		self.camiones.to_csv("resultados/"+name)
+		print("Archivo almacenado como ",name)
 		self.metricas()
