@@ -5,7 +5,7 @@ from os import mkdir
 
 class OutFiles():
 	def __init__(self,collector,nominal):
-		self.camCols = ["Camion","Tiempo","Estado","Carga"]
+		self.camCols = ["Maquinaria","Tiempo","Estado","Carga"]
 		self.data = collector
 		self.camiones = None
 		self.nominal = nominal
@@ -13,21 +13,21 @@ class OutFiles():
 	def metricas(self):
 		aux = None
 		metrics = {}
-		for maquinaria in self.camiones["Camion"].unique():
-			aux = self.camiones.loc[self.camiones["Camion"]==maquinaria]
+		for maquinaria in self.camiones["Maquinaria"].unique():
+			aux = self.camiones.loc[self.camiones["Maquinaria"]==maquinaria]
 			metrics[maquinaria] = {}
-			if "pala"in maquinaria:
+			metrics[maquinaria]["TD"]=self.nominal #-MANTENIMIENTO
+			if "pala" in maquinaria:
+				aux.loc[(aux.Estado=="esperando")]["Tiempo"].to_csv("HUH.csv")
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="cargando")]["Carga"].sum()
 				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="cargando")]["Tiempo"].sum()
-				metrics[maquinaria]["TD"]=self.nominal #-DEMORAS
-				metrics[maquinaria]["Utilizacion"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
+				metrics[maquinaria]["TDO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TO"]
 			else:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="descargando")]["Carga"].sum()
 				metrics[maquinaria]["TDO"]=aux.loc[(aux.Estado=="esperando")]["Tiempo"].sum()
-				metrics[maquinaria]["TD"]=self.nominal #-DEMORAS
 				metrics[maquinaria]["TO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TDO"]
-				metrics[maquinaria]["Utilizacion"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
 				metrics[maquinaria]["Factor LLenado"]=(aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400)*100
+			metrics[maquinaria]["Utilizacion"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
 		
 		metricas = pd.DataFrame.from_dict(metrics)
 		name = str(datetime.now())+"metricas.csv"

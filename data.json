@@ -2,6 +2,6 @@
      "camiones" : 14,
      "palas" : 1,
      "stock_piles" : 3,
-     "simTime" : 25920000,
+     "simTime" : 142000,
      "palaToStock": [[1,2,3]]
 }
