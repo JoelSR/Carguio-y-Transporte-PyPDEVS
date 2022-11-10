@@ -26,8 +26,8 @@ class OutFiles():
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="descargando")]["Carga"].sum()
 				metrics[maquinaria]["TDO"]=aux.loc[(aux.Estado=="esperando")]["Tiempo"].sum()
 				metrics[maquinaria]["TO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TDO"]
-				metrics[maquinaria]["Factor LLenado"]=(aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400)*100
-			metrics[maquinaria]["Utilizacion"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
+				metrics[maquinaria]["Fq"]=(aux.loc[(aux.Estado=="descargando")]["Carga"].mean()/400)*100
+			metrics[maquinaria]["U"]=(metrics[maquinaria]["TO"]/metrics[maquinaria]["TD"])*100
 		
 		metricas = pd.DataFrame.from_dict(metrics)
 		name = str(datetime.now())+"metricas.csv"
