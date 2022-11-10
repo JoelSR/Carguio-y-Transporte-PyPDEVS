@@ -12,7 +12,7 @@ from OPMCT import OPMCTSystem
 
 if(len(sys.argv) == 2):
     if(sys.argv[1] in ["--help","-h"]):
-        print("uso: experiment.py [opción]")
+        print("uso: experiment.py [opción||path/to/file]")
         print("-h, --help\t\tMostrar esta ayuda.")
         print("-e,--example\t\tPara ver un ejemplo.")
         print("\t\t*Para utilizar un archivo json distinto al del ejemplo ingrese la dirección del archivo")
