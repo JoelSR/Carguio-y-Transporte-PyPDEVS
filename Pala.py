@@ -26,7 +26,6 @@ class Pala(AtomicDEVS):
 
 		# Initial State
 		self.state = PalaState("esperando")
-		self.remaining_time = float("inf")
 
 		# Cola
 		self.camiones = []
@@ -92,14 +91,16 @@ class Pala(AtomicDEVS):
 
 		if state == "esperando":
 			return float("inf")
+		#Envio de carga
 		elif state == "cargando":
 			self.adv_time = 0.0
 			return 0.0
 		elif state == "iniciarCarga":
 			#https://blogs.sas.com/content/iml/2014/06/04/simulate-lognormal-data-with-specified-mean-and-variance.html
 			phi = sqrt(4.41**2+2.54**2)
-			self.loadTime = lognormal(log(4.41**2/ phi),sqrt(log((phi**2)/4.41**2)))*60 #carguio
+			self.loadTime = (lognormal(log(4.41**2/ phi),sqrt(log((phi**2)/4.41**2))))*60 #carguio
 			return 0.0
+		#Espera de salida
 		elif state == "salida":
 			return self.loadTime
 		else:
@@ -115,7 +116,7 @@ class Pala(AtomicDEVS):
 			return {self.out_load[self.camion]: [carga,self.loadTime,self.toStocks],
 					self.DATA: [self.name,self.loadTime,self.state.get(),carga]}
 		elif(state == "iniciarCarga"):
-			return {self.DATA: [self.name,self.elapsed,self.state.get(),0]}
+			return {self.DATA: [self.name,0.0,self.state.get(),0]}
 		elif(state == "salida"):
 			return {self.DATA: [self.name,self.adv_time,self.state.get(),0]}
 		else:

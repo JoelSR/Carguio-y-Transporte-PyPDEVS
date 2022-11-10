@@ -123,7 +123,7 @@ class Camion(AtomicDEVS):
 		elif(state == "esperando"):
 			return {self.DATA: [self.name,self.adv_time,self.state.get(),self.carga]}
 		elif(state == "ocupado"):
-			return {self.DATA: [self.name,self.adv_time,self.state.get(),self.carga]}
+			return {self.DATA: [self.name,self.cargaT,self.state.get(),self.carga]}
 		elif(state == "transportando"):
 			return {self.DATA: [self.name,self.adv_time,self.state.get(),self.carga]}
 		elif(state == "viajandoVacio"):
