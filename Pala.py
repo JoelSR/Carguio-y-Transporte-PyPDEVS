@@ -8,6 +8,7 @@ from math import log
 class PalaState:
 	def __init__(self, current="esperando"):
 		self.set(current)
+		self.remaining_time = float("inf")
 
 	def set(self, value="esperando"):
 		self.__state=value
@@ -61,19 +62,18 @@ class Pala(AtomicDEVS):
 		state = self.state.get()
 
 		if(state == "cargando"):
-			self.camiones.pop(0)
-			self.busy = False
 			return PalaState("salida")
 		elif(state == "iniciarCarga"):
 			self.camion = self.camiones[0]
 			self.busy = True
+			self.camiones.pop(0)
 			return PalaState("cargando")
 		elif(state == "salida"):
-			if len(self.camiones) != 0 and self.busy == False:
+			self.busy = False
+			if len(self.camiones) != 0:
 				return PalaState("iniciarCarga")
 			else:
 				return PalaState("esperando")
-			
 		else:
 			raise DEVSException(\
 				"unknown state <%s> in PALA internal transition function"\
@@ -82,7 +82,11 @@ class Pala(AtomicDEVS):
 	def extTransition(self,inputs):
 		inputC = inputs.get(self.CAMION)[0]
 
-		if(inputC):
+		if(self.busy):
+			self.camiones.append(inputC)
+			self.loadTime -= self.elapsed
+			return PalaState("salida")
+		else:
 			self.camiones.append(inputC)
 			return PalaState("iniciarCarga")
 
