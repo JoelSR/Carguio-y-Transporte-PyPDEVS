@@ -99,7 +99,8 @@ class Camion(AtomicDEVS):
 			self.adv_time = lognormal(log(34.1**2/ phi),sqrt(log((phi**2)/34.1**2)))*60
 			return self.adv_time
 		elif state == "descargando":
-			self.adv_time = invgauss.rvs(0.84,scale=1)*60#descarga+aculatado
+			phi = sqrt( 1.84**2 + 1.38**2 )
+			self.adv_time = lognormal(log(1.84**2/ phi),sqrt(log((phi**2)/1.84**2)))*60#descarga+aculatado
 			return self.adv_time
 		elif state == "viajandoVacio":
 			phi = sqrt( 26.8**2 + 19.0**2 )
