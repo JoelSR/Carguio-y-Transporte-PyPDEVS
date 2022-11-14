@@ -8,7 +8,6 @@ from math import log
 class PalaState:
 	def __init__(self, current="esperando"):
 		self.set(current)
-		self.remaining_time = float("inf")
 
 	def set(self, value="esperando"):
 		self.__state=value
