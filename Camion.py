@@ -1,5 +1,4 @@
 from pypdevs.DEVS import *
-from scipy.stats import invgauss
 from numpy.random import lognormal
 from math import sqrt
 from math import log
