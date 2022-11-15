@@ -94,14 +94,18 @@ class Camion(AtomicDEVS):
 			self.adv_time = self.elapsed
 			return float("inf")
 		elif state == "transportando":
+			#https://blogs.sas.com/content/iml/2014/06/04/simulate-lognormal-data-with-specified-mean-and-variance.html
 			phi = sqrt( 34.1**2 + 21.9**2 )
 			self.adv_time = lognormal(log(34.1**2/ phi),sqrt(log((phi**2)/34.1**2)))*60
 			return self.adv_time
 		elif state == "descargando":
+			#https://blogs.sas.com/content/iml/2014/06/04/simulate-lognormal-data-with-specified-mean-and-variance.html
 			phi = sqrt( 1.84**2 + 1.38**2 )
-			self.adv_time = lognormal(log(1.84**2/ phi),sqrt(log((phi**2)/1.84**2)))*60#descarga+aculatado
+			phi2 = sqrt( 1.48**2 + 1.71**2 )
+			self.adv_time = (lognormal(log(1.84**2/ phi),sqrt(log((phi**2)/1.84**2)))+lognormal(log(1.48**2/ phi2),sqrt(log((phi2**2)/1.48**2))))*60#descarga+aculatado
 			return self.adv_time
 		elif state == "viajandoVacio":
+			#https://blogs.sas.com/content/iml/2014/06/04/simulate-lognormal-data-with-specified-mean-and-variance.html
 			phi = sqrt( 26.8**2 + 19.0**2 )
 			self.adv_time = lognormal(log(26.8**2/ phi),sqrt(log((phi**2)/26.8**2)))*60
 			return self.adv_time
