@@ -30,7 +30,10 @@ class Collector(AtomicDEVS):
         elif(inputData[2]=="ocupado"):
             self.state.events.append([inputData[0],self.state.current_time-inputData[1]-self.state.arrives[inputData[0]],"esperando",0])
             self.state.events.append(inputData)
-        elif(inputData[2]!="iniciarCarga"):
+        elif(inputData=="iniciarCarga"):
+            inputData[1] = self.state.current_time
+            self.state.events.append(inputData)
+        else:
             self.state.events.append(inputData)
         return self.state
 

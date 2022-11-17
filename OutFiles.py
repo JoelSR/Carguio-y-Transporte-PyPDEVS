@@ -5,7 +5,7 @@ from os import mkdir
 
 class OutFiles():
 	def __init__(self,collector,nominal):
-		self.camCols = ["Maquinaria","Tiempo","Estado","Carga"]
+		self.camCols = ["Maquinaria","Tiempo","Estado","Carga","Cola"]
 		self.data = collector
 		self.camiones = None
 		self.nominal = nominal
