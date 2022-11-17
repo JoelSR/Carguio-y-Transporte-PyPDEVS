@@ -30,7 +30,6 @@ class Collector(AtomicDEVS):
             self.state.events.append([inputData[0],self.state.current_time-inputData[1]-self.state.arrives[inputData[0]],"esperando",0])
             self.state.events.append(inputData)
         elif(inputData[2]=="cargando"):
-            print(inputData[4])
             self.state.events.append([inputData[0],self.state.current_time,"ver-cola",0,inputData[4]])
             self.state.events.append([inputData[0],inputData[1],inputData[2],inputData[3]])
         elif(inputData[2]!="iniciarCarga"):
