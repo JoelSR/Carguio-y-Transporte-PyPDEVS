@@ -18,7 +18,6 @@ class OutFiles():
 			metrics[maquinaria] = {}
 			metrics[maquinaria]["TD"]=self.nominal #-MANTENIMIENTO
 			if "pala" in maquinaria:
-				aux.loc[(aux.Estado=="esperando")]["Tiempo"].to_csv("HUH.csv")
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="cargando")]["Carga"].sum()
 				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="cargando")]["Tiempo"].sum()
 				metrics[maquinaria]["TDO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TO"]
