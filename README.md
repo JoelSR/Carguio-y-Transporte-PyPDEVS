@@ -4,4 +4,9 @@ Modelo de carguio y transporte implementado en PyPDEVS
 
 ## Instalación PyPDEVS
 El paquete de simulación y modelado PyPDEVS se encuentra en [Repositorio PythonPDEVS](https://msdl.uantwerpen.be/git/yentl/PythonPDEVS), para encontrar trabajos y documentación se debe dirigir a la [Página oficial de PythonPDEVS](http://msdl.cs.mcgill.ca/projects/DEVS/PythonPDEVS).
-Este paquete se puede instalar facilmente con los siguientes comandos.
+
+Este paquete se puede instalar facilmente con los siguientes comandos en la carpeta descargada.
+"""
+cd src
+python setup.py install --user
+"""
