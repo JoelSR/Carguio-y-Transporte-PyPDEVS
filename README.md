@@ -13,3 +13,24 @@ python3 setup.py install --user
 python3 -c "import pypdevs"
 ```
 ## Utilización modelo carguío y transporte
+
+Para la utilización del simulador se necesita instalar [Numpy](https://numpy.org/install/) y [Pandas](https://pandas.pydata.org/docs/getting_started/install.html).
+Teniendo las librerías instaladas, el uso del simulador consiste en los siguientes comandos:
+* Ejemplo
+```
+python3 experiment -e
+```
+```
+python3 experiment --example
+```
+* Ayuda
+```
+python3 experiment -h
+```
+```
+python3 experiment --help
+```
+* Archivo de configuración
+```
+python3 experiment [path/to/file]
+```
