@@ -114,7 +114,6 @@ class Camion(AtomicDEVS):
 
 		state = self.state.get()
 
-		####nt(state)
 
 		if(state == "listoPala"):
 			pala = self.dispatcher.asignarPalaRR()
