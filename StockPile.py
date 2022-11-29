@@ -43,7 +43,6 @@ class StockPile(AtomicDEVS):
 		input = inputs.get(self.LOAD)[0]
 
 		self.toneladas += input
-		#print(self.toneladas)
 		return self.state
 
 	def timeAdvance(self):
