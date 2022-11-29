@@ -20,7 +20,10 @@ class OutFiles():
 			if "pala" in maquinaria:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="cargando")]["Carga"].sum()
 				metrics[maquinaria]["TO"]=aux.loc[(aux.Estado=="cargando")]["Tiempo"].sum()
-				metrics[maquinaria]["TDO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TO"]
+				if(metrics[maquinaria]["TO"]>metrics[maquinaria]["TD"]):
+					metrics[maquinaria]["TDO"]=metrics[maquinaria]["TD"]
+				else:
+					metrics[maquinaria]["TDO"]=metrics[maquinaria]["TD"]-metrics[maquinaria]["TO"]
 			else:
 				metrics[maquinaria]["tons"]=aux.loc[(aux.Estado=="descargando")]["Carga"].sum()
 				metrics[maquinaria]["TDO"]=aux.loc[(aux.Estado=="esperando")]["Tiempo"].sum()

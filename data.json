@@ -1,7 +1,7 @@
 {
      "camiones" : 14,
      "palas" : 1,
-     "stock_piles" : 3,
-     "simTime" : 142000,
-     "palaToStock": [[1,2,3]]
+     "stock_piles" : 2,
+     "simTime" : 1728000,
+     "palaToStock": [[1,2]]
 }
