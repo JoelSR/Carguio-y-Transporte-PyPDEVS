@@ -52,6 +52,9 @@ pQ = data["palas"]
 # Número de stock piles
 sQ = data["stock_piles"]
 
+#Stocks con colas
+QinS = data["cola_en_stocks"]
+
 # Tiempo de simulación
 simTime = float(data["simTime"])
 
@@ -69,7 +72,7 @@ for i in palaToStock:
     else:
         continue
 
-opmct = OPMCTSystem(cQ,pQ,sQ,palaToStock)
+opmct = OPMCTSystem(cQ,pQ,sQ,palaToStock,QinS)
 
 # PythonPDEVS specific setup and configuration
 sim = Simulator(opmct)
